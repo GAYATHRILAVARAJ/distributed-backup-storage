@@ -1,0 +1,9 @@
+TCP backup server listening on port 5002
+Client connected: ('10.0.0.1', 56796)
+Transfer error: Connection closed unexpectedly
+Client disconnected: ('10.0.0.1', 56796)
+Client connected: ('10.0.0.1', 60974)
+Registered chunk: 1
+Saved chunk 1: test_large.txt (65536 bytes)
+Transfer error: Connection closed unexpectedly
+Client disconnected: ('10.0.0.1', 60974)

@@ -1,0 +1,29 @@
+{
+    "backup_id": "backup_selective_test",
+    "filename": "sample.txt",
+    "total_chunks": 3,
+    "file_sha256": "44d82bc83d975198ecd5712b50e9c3ed5ae5eb6ca07cb05ec5d5e423425f5afb",
+    "chunks": {
+        "0": {
+            "chunk_id": 0,
+            "chunk_size": 11,
+            "checksum": "5dfdaaf063c29f05de091b9983bc79c5313b2b46c2401700e68b186564f753f3",
+            "server_id": "server_1",
+            "status": "verified"
+        },
+        "1": {
+            "chunk_id": 1,
+            "chunk_size": 12,
+            "checksum": "a69a87729c0145adbb05dd07b558fe3208b5dbc335f471b48ab8ed6945eff637",
+            "server_id": "server_2",
+            "status": "verified"
+        },
+        "2": {
+            "chunk_id": 2,
+            "chunk_size": 10,
+            "checksum": "8d55c2df552f3bd4ff61e0ff009bf4470781fc034a6bea7fa4406c3aac5cc788",
+            "server_id": "server_3",
+            "status": "verified"
+        }
+    }
+}

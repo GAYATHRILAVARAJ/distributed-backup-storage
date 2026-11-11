@@ -1,0 +1,29 @@
+{
+  "backup_id": "backup_001",
+  "filename": "example.pdf",
+  "total_chunks": 3,
+  "file_sha256": "WHOLE_FILE_SHA256",
+  "chunks": {
+    "0": {
+      "chunk_id": 0,
+      "chunk_size": 65536,
+      "checksum": "CHUNK_0_SHA256",
+      "server_id": "server_1",
+      "status": "stored"
+    },
+    "1": {
+      "chunk_id": 1,
+      "chunk_size": 65536,
+      "checksum": "CHUNK_1_SHA256",
+      "server_id": "server_2",
+      "status": "stored"
+    },
+    "2": {
+      "chunk_id": 2,
+      "chunk_size": 12500,
+      "checksum": "CHUNK_2_SHA256",
+      "server_id": "server_1",
+      "status": "stored"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# Distributed Backup System – Performance Test Results
+
+## Test Configuration
+- Test file: performance_test.bin
+- File size: 32 MiB (33,554,432 bytes)
+- Chunk size: 65,536 bytes (64 KiB)
+- Total chunks: 512
+- Backup servers:
+  - Server 1: 10.0.0.2
+  - Server 2: 10.0.0.3
+
+## Test 1: Primary Path
+
+- Backup ID: perf_primary_002
+- Network path: Primary (s1–s2–s4)
+- Transfer elapsed time: 87.1920 seconds
+- Effective upload throughput: 0.367 MiB/s
+- Reconstruction/retrieval time: 87.8805 seconds
+- SHA-256: 056c2f30970f98bb8535c4f5846a67271820c58744b6cd522ef4c90ea527cee1
+- Whole-file SHA-256 verification: PASSED
+
+## Test 2: Backup Path
+
+- Backup ID: perf_backup_002
+- Network path: Backup (s1–s3–s4)
+- Transfer elapsed time: 139.8647 seconds
+- Effective upload throughput: 0.229 MiB/s
+- Reconstruction/retrieval time: 141.4745 seconds
+- SHA-256: 056c2f30970f98bb8535c4f5846a67271820c58744b6cd522ef4c90ea527cee1
+- Whole-file SHA-256 verification: PASSED
+
+## Comparison
+
+| Metric | Primary | Backup |
+|---|---:|---:|
+| Transfer time | 87.1920 s | 139.8647 s |
+| Throughput | 0.367 MiB/s | 0.229 MiB/s |
+| Reconstruction time | 87.8805 s | 141.4745 s |
+
+## Observations
+- Both tests transferred 512 chunks across the two backup servers.
+- Both reconstructed files passed whole-file SHA-256 verification.
+- The backup-path test took approximately 60.4% longer than the primary-path test.
+- Throughput decreased from 0.367 MiB/s to 0.229 MiB/s when using the backup path.
+- The controller logs confirmed switching to the backup path when the primary link failed.
+
+Note: These are measured results from one clean run per path. They should be treated as observations, not as statistically conclusive benchmarks.

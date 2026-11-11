@@ -1,0 +1,9 @@
+TCP backup server listening on port 5001
+Client connected: ('10.0.0.1', 51204)
+Saved chunk 0: test_large.txt (65536 bytes)
+Saved chunk 1: test_large.txt (65536 bytes)
+Saved chunk 2: test_large.txt (24928 bytes)
+Reconstructed file: received_chunks/24a5e6bf-3a0c-46e0-b066-dc84d46a3d76/reconstructed_test_large.txt
+Reconstructed SHA-256: e582f2860a0086dc06195b0f0e7b7ee4c1480b519aba1662cf069f04ca684bfb
+Whole-file SHA-256: VERIFIED
+Client disconnected: ('10.0.0.1', 51204)

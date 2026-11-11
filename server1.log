@@ -1,0 +1,21 @@
+TCP backup server listening on port 5001
+Client connected: ('10.0.0.1', 50060)
+Backup manifest created: e0b59e05-58c2-4922-824c-b468773ddd5d
+Registered chunk: 0
+Saved chunk 0: sample.txt (62 bytes)
+Reconstructed file: recovered_files/reconstructed_sample.txt
+SHA-256: 4ac9d4c7b29000afacc789e98311ccfb2b9003595203b3db64e2ef214ce8735a
+Whole-file verification successful!
+Reconstructed file: recovered_files/reconstructed_sample.txt
+Client disconnected: ('10.0.0.1', 50060)
+Client connected: ('10.0.0.1', 58076)
+Backup manifest created: 21c42f6c-8105-46b0-b8b3-619197b7e4d7
+Registered chunk: 0
+Saved chunk 0: test_large.txt (65536 bytes)
+Registered chunk: 2
+Saved chunk 2: test_large.txt (24928 bytes)
+Reconstructed file: recovered_files/reconstructed_test_large.txt
+SHA-256: e582f2860a0086dc06195b0f0e7b7ee4c1480b519aba1662cf069f04ca684bfb
+Whole-file verification successful!
+Reconstructed file: recovered_files/reconstructed_test_large.txt
+Client disconnected: ('10.0.0.1', 58076)

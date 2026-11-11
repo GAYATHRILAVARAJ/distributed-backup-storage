@@ -1,0 +1,140 @@
+import socket
+import json
+import struct
+import hashlib
+import os
+import uuid
+import sys
+
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 5001
+CHUNK_SIZE = 65536
+
+
+def send_message(sock, message):
+    data = json.dumps(message).encode("utf-8")
+    sock.sendall(struct.pack("!I", len(data)) + data)
+
+
+def receive_exact(sock, size):
+    data = b""
+
+    while len(data) < size:
+        part = sock.recv(size - len(data))
+
+        if not part:
+            raise ConnectionError("Server disconnected")
+
+        data += part
+
+    return data
+
+
+def receive_message(sock):
+    header = receive_exact(sock, 4)
+    length = struct.unpack("!I", header)[0]
+
+    if length > 1024 * 1024:
+        raise ValueError("Server message is too large")
+
+    data = receive_exact(sock, length)
+    return json.loads(data.decode("utf-8"))
+
+
+def calculate_sha256(file_path):
+    file_hash = hashlib.sha256()
+
+    with open(file_path, "rb") as file:
+        while True:
+            data = file.read(CHUNK_SIZE)
+
+            if not data:
+                break
+
+            file_hash.update(data)
+
+    return file_hash.hexdigest()
+
+
+def main():
+    file_path = input("Enter the file path to back up: ").strip()
+    file_path = os.path.abspath(os.path.expanduser(file_path))
+
+    if not os.path.isfile(file_path):
+        print("Error: File not found.")
+        return
+
+    filename = os.path.basename(file_path)
+    backup_id = str(uuid.uuid4())
+    file_size = os.path.getsize(file_path)
+    total_chunks = max(
+        (file_size + CHUNK_SIZE - 1) // CHUNK_SIZE, 1
+    )
+
+    whole_hash = calculate_sha256(file_path)
+
+    print("Backup ID:", backup_id)
+    print("File:", filename)
+    print("File size:", file_size, "bytes")
+    print("Total chunks:", total_chunks)
+    print("File SHA-256:", whole_hash)
+
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect((SERVER_HOST, SERVER_PORT))
+            print("Connected to backup server.")
+
+            with open(file_path, "rb") as file:
+                for chunk_id in range(total_chunks):
+                    chunk_data = file.read(CHUNK_SIZE)
+
+                    metadata = {
+                        "backup_id": backup_id,
+                        "filename": filename,
+                        "total_chunks": total_chunks,
+                        "chunk_id": chunk_id,
+                        "chunk_size": len(chunk_data),
+                        "checksum": hashlib.sha256(
+                            chunk_data
+                        ).hexdigest(),
+                        "file_sha256": whole_hash,
+                        "server_id": "server_1"
+                    }
+
+                    send_message(sock, metadata)
+                    sock.sendall(chunk_data)
+
+                    response = receive_message(sock)
+
+                    if response.get("status") != "ok":
+                        print(
+                            "Chunk failed:",
+                            chunk_id,
+                            response.get("message", response)
+                        )
+                        return
+
+                    print(f"Chunk {chunk_id} sent and verified.")
+
+            send_message(sock, {
+                "action": "done",
+                "file_sha256": whole_hash
+            })
+
+            response = receive_message(sock)
+
+            if response.get("status") == "complete":
+                print("Backup transfer completed successfully.")
+                print("Whole-file SHA-256 verified by server.")
+            else:
+                print(
+                    "Backup verification failed:",
+                    response.get("message", response)
+                )
+
+    except (OSError, ConnectionError, ValueError) as error:
+        print("Transfer failed:", error)
+
+
+if __name__ == "__main__":
+    main()

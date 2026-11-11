@@ -1,0 +1,15 @@
+{
+    "backup_id": "backup_test_001",
+    "filename": "sample.txt",
+    "total_chunks": 1,
+    "file_sha256": "1fb54e318b67c45d7eb1ffee2c5a04cb50fd5fc0e264999a3791a185356a70b2",
+    "chunks": {
+        "0": {
+            "chunk_id": 0,
+            "chunk_size": 25,
+            "checksum": "1fb54e318b67c45d7eb1ffee2c5a04cb50fd5fc0e264999a3791a185356a70b2",
+            "server_id": "server_1",
+            "status": "stored"
+        }
+    }
+}
